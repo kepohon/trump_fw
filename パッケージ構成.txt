@@ -1,0 +1,20 @@
+・パッケージ構成
+
+fantan/
+	setup.py
+	trump/			パッケージ名(このフォルダ内がパッケージファイル)
+		__init__.py
+		master.py
+		player.py
+		hand.py
+		rule.py
+		card.py
+		table.py
+
+
+・パッケージのインストールのしかた
+
+setup.pyがあるフォルダから以下コマンドを実行します
+
+pip install -e .
+
