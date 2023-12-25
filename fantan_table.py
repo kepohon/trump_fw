@@ -25,5 +25,5 @@ class FantanTable(trump.Table):
         super().putCard(card)
     
     def getCards(self):
-        return self.table_
+        return self._table
     

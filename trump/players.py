@@ -1,5 +1,5 @@
 '''
-    players.py
+    _players.py
     
     ・プレイヤー配列を持つクラス（フレームワーク内で使われる）
     
@@ -28,26 +28,26 @@ from .card import Card
 
 class Players:
     def __init__(self):
-        self.players = []
-        self.currentIndex = 0
-        self.numberOfPlayer = 0
-        self.currentPlayerOBJ = None
-        self.nextPlayerOBJ = None
+        self._players = []
+        self._currentIndex = 0
+        self._numberOfPlayer = 0
+        self._currentPlayerOBJ = None
+        self._nextPlayerOBJ = None
 
     # プレイヤーを登録する
     def register(self, player):
-        self.players.append(player)
-        self.numberOfPlayer += 1
+        self._players.append(player)
+        self._numberOfPlayer += 1
     
     # プレイヤーの人数を返す
     def numberOfPlayers(self):
-        return self.numberOfPlayer  #len(self.players)
+        return self._numberOfPlayer  #len(self._players)
     
     # 全プレイヤーの名前と手札を表示する
     def displayHand(self):
         print("")
-        for player in self.players:         #参加プレイヤーと手札を表示する
-            print( "%s さん : %s" % (player, player.hand_) )
+        for player in self._players:         #参加プレイヤーと手札を表示する
+            print( "%s さん : %s" % (player, player._hand) )
             #print( player , end='')
             #print( "さん:", end=' ')
             #print( player.hand_ )
@@ -56,38 +56,38 @@ class Players:
     
     # 現在のプレイヤーオブジェクトを返す
     def currentPlayer(self):
-        self.currentIndex = self.currentIndex % self.numberOfPlayers()
-        self.currentPlayerOBJ = self.players[self.currentIndex]
-        return self.currentPlayerOBJ
+        self._currentIndex = self._currentIndex % self.numberOfPlayers()
+        self._currentPlayerOBJ = self._players[self._currentIndex]
+        return self._currentPlayerOBJ
     
     # 次のプレイヤーオブジェクトを返す
     def nextPlayer(self):
-        self.nextPlayerOBJ = self.players[(self.currentIndex + 1) % self.numberOfPlayers()]
-        return self.nextPlayerOBJ
+        self._nextPlayerOBJ = self._players[(self._currentIndex + 1) % self.numberOfPlayers()]
+        return self._nextPlayerOBJ
     
     # 現在のプレイヤーを進める
     def advancePlayer(self):
-        self.currentIndex += 1
-        if self.currentIndex >= self.numberOfPlayers():
-            self.currentIndex = 0
+        self._currentIndex += 1
+        if self._currentIndex >= self.numberOfPlayers():
+            self._currentIndex = 0
     
     # プレイヤーの添え字をリセットする
     def resetPlayerIndex(self):
-        self.currentIndex = 0
+        self._currentIndex = 0
     
     # 指定されたプレイヤーの添え字を返す
     def searchPlayerIndex(self, player):
-        return self.players.index( player )
+        return self._players.index( player )
     
     # プレイヤーを削除する
     def deletePlayer(self, index):
-        self.players.pop(index)
-        self.numberOfPlayer -= 1
+        self._players.pop(index)
+        self._numberOfPlayer -= 1
     
     # 現在のプレイヤーがずれたか？
     def isChangeCurrentPlayer(self):
-        if self.currentIndex >= len(self.players):  # 現在のプレイヤーがいなくなった場合
+        if self._currentIndex >= len(self._players):  # 現在のプレイヤーがいなくなった場合
             return True
-        if self.currentPlayerOBJ != self.players[self.currentIndex]:
+        if self._currentPlayerOBJ != self._players[self._currentIndex]:
             return True
         return False

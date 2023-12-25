@@ -2,6 +2,7 @@
     table.py
     
     ・テーブルクラス（抽象クラス）
+        一次元配列を二次元配列のように使う
     
 		属性
 			・手札(カード配列)
@@ -17,42 +18,45 @@
 from .card import Card
 
 class Table:
-    table_ = [None] * (Card.NUMBER_MAX * Card.SUIT_MAX)
-    tableCardString_ = ""
+    _table = [None] * ((Card.NUMBER_MAX+1) * (Card.SUIT_MAX+1))
+    _tableCardString = ""
     
     def __init__(self):
         self._createString()
     
     def __str__(self):
-        return self.tableCardString_
+        return self._tableCardString
     
     def putCard(self, card):
         suit = card.getSuit()
         number = card.getNumber()
-        self.table_[suit*Card.NUMBER_MAX+number] = card
+        self._table[suit*Card.NUMBER_MAX+number] = card
         self._createString()
     
     def getCards(self):
-        return self.table_
+        return self._table
     
     #def __str__(self):
-    #    return self.tableCardString_
+    #    return self._tableCardString
     
     # テーブルを文字列として表現する
     def _createString(self):
-        self.tableCardString_ = ""
-        numberIndex = 0
-        suitIndex = 0
-        for card in self.table_:
-            if card == None:
-                self.tableCardString_ += ".. "
+        self._tableCardString = ""
+        numberIndex = 1
+        suitIndex = 1
+        numberOfCards = (Card.SUIT_MAX+1) * (Card.NUMBER_MAX+1) 
+        for index in range(numberOfCards):
+            currentCard = self._table[index]
+            if currentCard == None:
+                self._tableCardString += ".. "
+                if (index % Card.NUMBER_MAX) == 0:
+                    self._tableCardString += "\n"
+                continue
             else:
-                self.tableCardString_ += str(card)
-                self.tableCardString_ += " "
-            numberIndex += 1
-            if numberIndex >= Card.NUMBER_MAX:
-                suitIndex += 1
-                numberIndex = 0
-                self.tableCardString_ += "\n"
+                self._tableCardString += str(currentCard)
+                self._tableCardString += " "
+            
+            if currentCard.getNumber() == Card.NUMBER_MAX:
+                self._tableCardString += "\n"
         return
 

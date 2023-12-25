@@ -19,7 +19,7 @@ from .card import Card
 
 class Joker(Card):
     def __init__(self):
-        super().__init__(99, 99)
+        super().__init__(0, 0)
     
     def setNumber(self, number):
         this._number = number

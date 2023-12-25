@@ -23,34 +23,34 @@ from .hand import Hand
 from .table import Table
 
 class Player:
-    name_ = ""
-    hand_ = None
-    master_ = None
-    table_ = None
-    rule_ = None
+    _name = ""
+    _hand = None
+    _master = None
+    _table = None
+    _rule = None
     
     def __init__(self, name, master, table, rule):
-        self.name_ = name
-        self.master_ = master
-        self.table_ = table
-        self.hand_ = Hand()
-        self.rule_ = rule
+        self._name = name
+        self._master = master
+        self._table = table
+        self._hand = Hand()
+        self._rule = rule
     
     def __str__(self):
-        return self.name_
+        return self._name
     
     #        ・配られたカードを手札に加える
     def recieveCard(self, card):
-        self.hand_.addCard(card)
+        self._hand.addCard(card)
     
     def play(self, nextPlayer):
         pass
     
     def showHand(self):
-        return self.hand_
+        return self._hand
     
     def printHand(self):
-        print(self.hand_)
+        print(self._hand)
 
 
 

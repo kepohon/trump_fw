@@ -25,43 +25,46 @@
 '''
 
 class Card:
-    SUIT_MIN = 0
+    SUIT_MIN = 1
     SUIT_MAX = 4
-    NUMBER_MIN = 0
+    NUMBER_MIN = 1
     NUMBER_MAX = 13
     JOKER = 0
-    ARRAY_SUIT = ["S","D","C","H"]
-    ARRAY_NUMBER = ["A","2","3","4","5","6","7","8","9","T","J","Q","K"]
+    ARRAY_SUIT = ["J","S","D","C","H"]
+    ARRAY_NUMBER = ["o","A","2","3","4","5","6","7","8","9","T","J","Q","K"]
     
-    number_ = 0
-    suit_ = 0
-    cardNameString_ = ""
+    _number = 0
+    _suit = 0
+    _cardNameString = ""
     
     def __init__(self, suit, number):
         # スートとナンバーの範囲チェック
-        self.suit_ = suit
-        self.number_ = number
-        self.createCardString_()
+        self._suit = suit
+        self._number = number
+        self._createCardString()
     
     # カード文字列を返す  呼び出し例 print( card )
     def __str__(self):
-        return self.cardNameString_
+        return self._cardNameString
     
     # カード文字列を作る
-    def createCardString_(self):
-        if (self.suit_ == 99) and (self.number_ == 99):
-            self.cardNameString_ = "Jo"
-        else:
-            self.cardNameString_ = self.ARRAY_SUIT[self.suit_] + self.ARRAY_NUMBER[self.number_]
-        return self.cardNameString_
+    def _createCardString(self):
+        #if (self._suit == 0) and (self._number == 0):
+        #    self._cardNameString = "Jo"
+        #else:
+        self._cardNameString = self.ARRAY_SUIT[self._suit] + self.ARRAY_NUMBER[self._number]
+        return self._cardNameString
+    
+    def _isJoker(self):
+        return (self._suit == 0) and (self._number == 0)
     
     # カードの数字を見る
     def getNumber(self):
-        return self.number_
+        return self._number
     
     # カードのスートを見る
     def getSuit(self):
-        return self.suit_
+        return self._suit
 
 
 

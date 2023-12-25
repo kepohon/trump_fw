@@ -26,7 +26,7 @@ from oldmaid_rule import OldmaidRule
 
 
 class OldmaidPlayer(trump.Player):
-    pass_ = 0
+    _pass = 0
     
     def __init__(self, name, master, table, rule):
         super().__init__(name, master, table, rule)
@@ -35,15 +35,15 @@ class OldmaidPlayer(trump.Player):
     #   手札に加えるカードの数字と同じ数のカードが手札にあれば捨てる
     def recieveCard(self, card):
         
-        if self.hand_.getNumberOfCard() >= 1:
+        if self._hand.getNumberOfCard() >= 1:
             number = card.getNumber()
-            cardCount = self.hand_.getNumberOfCard()
+            cardCount = self._hand.getNumberOfCard()
             for index in range(cardCount):
-                if number == self.hand_.lookCard(index).getNumber():
-                    sameCard = self.hand_.pickCard(index)
+                if number == self._hand.lookCard(index).getNumber():
+                    sameCard = self._hand.pickCard(index)
                     print("%s %sを捨てました" % (card, sameCard) )
-                    self.table_.putCard(card)
-                    self.table_.putCard(sameCard)
+                    self._table.putCard(card)
+                    self._table.putCard(sameCard)
                     return
         
         super().recieveCard(card)
@@ -53,22 +53,22 @@ class OldmaidPlayer(trump.Player):
     #   次のプレイヤーの手札が無くなったら、次のプレイヤーが上がりを宣言する
     #   引いたカードを手札に加える。同じ数字のカードがあれば、テーブルへ捨てる。
     def play(self, nextPlayer):
-        index = randrange(nextPlayer.hand_.getNumberOfCard())
-        pickCard = nextPlayer.hand_.pickCard(index)
+        index = randrange(nextPlayer._hand.getNumberOfCard())
+        pickCard = nextPlayer._hand.pickCard(index)
         print("%sさんから%sを引きました" % (nextPlayer, pickCard) )
-        if nextPlayer.hand_.getNumberOfCard() == 0:
-            self.master_.declareWin(nextPlayer)
+        if nextPlayer._hand.getNumberOfCard() == 0:
+            self._master.declareWin(nextPlayer)
         #self.recieveCard(pickCard)
         super().recieveCard(pickCard)
-        cards = self.rule_.findCandidate(self.hand_, self.table_)
+        cards = self._rule.findCandidate(self._hand, self._table)
         if cards != None:
-            self.table_.putCard(cards[0])
-            self.table_.putCard(cards[1])
+            self._table.putCard(cards[0])
+            self._table.putCard(cards[1])
             print("%s %sを捨てました" % (cards[0], cards[1]) )
-        if self.hand_.getNumberOfCard() == 0:
-            self.master_.declareWin(self)
+        if self._hand.getNumberOfCard() == 0:
+            self._master.declareWin(self)
     
     def getPass(self):
-        return self.pass_
+        return self._pass
 
 

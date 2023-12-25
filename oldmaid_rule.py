@@ -23,7 +23,7 @@ from .card import Card
 '''
 
 class OldmaidRule(trump.Rule):
-    candidate = None
+    _candidate = None
     def __init__(self):
         pass
 
@@ -35,9 +35,9 @@ class OldmaidRule(trump.Rule):
         if cardCount >= 2:
             orgIndex = 0
             sameIndex = 1
-            orgCard = hand.hand_[0]
+            orgCard = hand._hand[0]
             while True:
-                if hand.hand_[orgIndex].getNumber() == hand.hand_[sameIndex].getNumber():
+                if hand._hand[orgIndex].getNumber() == hand._hand[sameIndex].getNumber():
                     sameCards[1] = hand.pickCard(sameIndex)
                     sameCards[0] = hand.pickCard(orgIndex)
                     return sameCards

@@ -18,7 +18,7 @@ import trump
 #from .card import Card
 
 class OldmaidTable(trump.Table):
-    tableCardString_ = ""
+    _tableCardString = ""
     
     def __init__(self):
         super().__init__()

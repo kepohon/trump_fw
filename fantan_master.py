@@ -41,12 +41,12 @@ class FantanMaster(trump.Master):
     #   パス回数が制限を超えた場合
     #       プレイヤーの負けを表示する
     #       プレイヤーを検索し、ローテーションから削除する
-    def pass_(self, player):
+    def passTheTurn(self, player):
         print(" %s さんは %d 回目のパスしました！" % (player, player.getPass()) )
         if player.getPass() > self.PASS_LIMIT:
             print("  %sさんは負けです！" % (player))
-            index = self.players_.searchPlayerIndex( player )
-            self.players_.deletePlayer(index)
+            index = self._players.searchPlayerIndex( player )
+            self._players.deletePlayer(index)
     
 
 

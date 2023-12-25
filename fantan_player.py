@@ -30,7 +30,7 @@ from fantan_master import FantanMaster
 from fantan_rule import FantanRule
 
 class FantanPlayer(trump.Player):
-    pass_ = 0
+    _pass = 0
     
     def __init__(self, name, master, table, rule):
         super().__init__(name, master, table, rule)
@@ -39,9 +39,9 @@ class FantanPlayer(trump.Player):
     #           ・7のカードであればテーブルへ置く
     #           ・それ以外は手札に加える
     def recieveCard(self, card):
-        if card.getNumber() == 6:
-            print("%s:%sを置きました。" % (self.name_, card) )
-            self.table_.putCard(card)
+        if card.getNumber() == 7:
+            print("%s:%sを置きました。" % (self._name, card) )
+            self._table.putCard(card)
             return
         super().recieveCard(card)
     
@@ -53,19 +53,19 @@ class FantanPlayer(trump.Player):
     #       ・パス回数がリミットを超えたら、手札をすべてテーブルに置く
     def play(self, nextPlayer):
         self.showHand()
-        candidateCard = self.rule_.findCandidate(self.hand_, self.table_)
+        candidateCard = self._rule.findCandidate(self._hand, self._table)
         if candidateCard != None:   #置ける場合
             print("  %sを置きました。\n" % (candidateCard))
-            self.table_.putCard(candidateCard)
-            #print(self.table_)
-            if self.hand_.getNumberOfCard() == 0:
-                self.master_.declareWin(self)
+            self._table.putCard(candidateCard)
+            #print(self._table)
+            if self._hand.getNumberOfCard() == 0:
+                self._master.declareWin(self)
         else:   #置けない場合
-            self.pass_ += 1
-            self.master_.pass_(self)    # パスを宣言する
-            if self.pass_ > FantanMaster.PASS_LIMIT:
-                if self.hand_.getNumberOfCard() > 0:   # 手持ちのカードがあれば、すべてテーブルに置く
-                    self.putAllCardsOnTheTable_(self.hand_, self.table_)
+            self._pass += 1
+            self._master.passTheTurn(self)    # パスを宣言する
+            if self._pass > FantanMaster.PASS_LIMIT:
+                if self._hand.getNumberOfCard() > 0:   # 手持ちのカードがあれば、すべてテーブルに置く
+                    self.putAllCardsOnTheTable_(self._hand, self._table)
     
     # 手持ちのカードをすべてテーブルに置く
     def putAllCardsOnTheTable_(self, hand, table):
@@ -75,6 +75,6 @@ class FantanPlayer(trump.Player):
     
     # パス回数を取得する
     def getPass(self):
-        return self.pass_
+        return self._pass
 
 

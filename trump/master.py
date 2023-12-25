@@ -36,33 +36,33 @@ from .joker import Joker
 class Master:
     def __init__(self, name, table, withJoker):
         self.name_ = name
-        self.table_ = table
+        self._table = table
         self.withJoker_ = withJoker
         self.hand_ = Hand()
-        self.players_ = Players()
+        self._players = Players()
     
     def __str__(self):
         return "進行役（" + self.name_ + "）"
     
     # プレイヤーを登録する
     def registerPlayer(self, player):
-        self.players_.register(player)
+        self._players.register(player)
     
     #ゲームを準備する
     def prepareGame(self):
-        self.createTrump_()         # カードを準備する
-        self.handOutCard_()         # カードを配る
+        self._createTrump()         # カードを準備する
+        self._handOutCard()         # カードを配る
         
         print("テーブルのカード：")
-        print( self.table_ )
+        print( self._table )
         
         print( self )
-        self.players_.displayHand()      #参加プレイヤーと手札を表示する
+        self._players.displayHand()      #参加プレイヤーと手札を表示する
         print("エンターキーを押してください")
         input()
     
     #カードを準備する
-    def createTrump_(self):
+    def _createTrump(self):
         print("カードの準備")
         
         if self.withJoker_:         # Jokerが必要な場合
@@ -71,7 +71,7 @@ class Master:
         
         for suit in range(4):
             for number in range(13):
-                card = Card(suit, number)
+                card = Card(suit+1, number+1)
                 self.hand_.addCard(card)
         
         #作ったカードを表示する
@@ -82,15 +82,15 @@ class Master:
         print( self.hand_ )
     
     # カードをプレイヤーに配る
-    def handOutCard_(self):
+    def _handOutCard(self):
         print("カードを配ります")
         cardCount = self.hand_.getNumberOfCard()
-        playerCount = self.players_.numberOfPlayers()
+        playerCount = self._players.numberOfPlayers()
         print("カード枚数:%d" % cardCount)
         for i in range(cardCount):
             card = self.hand_.pickCard(0)
-            self.players_.currentPlayer().recieveCard(card)
-            self.players_.advancePlayer()
+            self._players.currentPlayer().recieveCard(card)
+            self._players.advancePlayer()
     
     # ゲームを開始する
     #   ・プレイヤーが1人の場合、何もしない
@@ -100,41 +100,41 @@ class Master:
     #       ・プレイヤーを指名する
     #       ・プレイヤーが1人になったら負けを宣言する
     def startGame(self):
-        if self.players_.numberOfPlayers() < 2:
+        if self._players.numberOfPlayers() < 2:
             return
             
-        self.players_.resetPlayerIndex()
+        self._players.resetPlayerIndex()
         playing = True
         index = 0
         
         while playing:
             print("==============================================")
-            print("%sさんの番です" % (self.players_.currentPlayer()))
-            print("%sさんの手札: %s" % (self.players_.currentPlayer(), self.players_.currentPlayer().hand_) )
-            print("%sさんの手札: %s" % (self.players_.nextPlayer(), self.players_.nextPlayer().hand_) )
+            print("%sさんの番です" % (self._players.currentPlayer()))
+            print("%sさんの手札: %s" % (self._players.currentPlayer(), self._players.currentPlayer()._hand) )
+            print("%sさんの手札: %s" % (self._players.nextPlayer(), self._players.nextPlayer()._hand) )
             
-            self.players_.currentPlayer().play(self.players_.nextPlayer())
+            self._players.currentPlayer().play(self._players.nextPlayer())
             
-            if self.players_.numberOfPlayers() < 2:
+            if self._players.numberOfPlayers() < 2:
                 playing = False
-                print( "%sさんの負けです" % (self.players_.currentPlayer()) )
-                print("%s: %s" % (self.players_.currentPlayer(), self.players_.currentPlayer().hand_))
+                print( "%sさんの負けです" % (self._players.currentPlayer()) )
+                print("%s: %s" % (self._players.currentPlayer(), self._players.currentPlayer()._hand))
                 break
                 
-            if self.players_.isChangeCurrentPlayer() == False:
-                self.players_.advancePlayer()
+            if self._players.isChangeCurrentPlayer() == False:
+                self._players.advancePlayer()
                 
-            self.players_.displayHand()
+            self._players.displayHand()
             print("テーブルのカード：")
-            print( self.table_ )
+            print( self._table )
             print("")
         print("テーブルのカード：")
-        print( self.table_ )
+        print( self._table )
     
     def declareWin(self, winner):
         print( "%sさんが上がりました！！！！！！！！！！！！" % winner )
-        index = self.players_.searchPlayerIndex( winner )
-        self.players_.deletePlayer(index)
+        index = self._players.searchPlayerIndex( winner )
+        self._players.deletePlayer(index)
 
 
 
