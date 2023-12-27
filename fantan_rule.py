@@ -19,9 +19,11 @@ import trump
 from trump.card import Card
 
 class FantanRule(trump.Rule):
-    _candidate = None
+    #_candidate = None
+    
     def __init__(self):
-        pass
+        self._card = Card(0,0)
+        self._candidate = None
 
     #            ・テーブルに置けるカードを探す
     def findCandidate(self, hand, table):
@@ -35,9 +37,9 @@ class FantanRule(trump.Rule):
             if number > 1:
                 leftNumber = number - 1
             else:
-                leftNumber = trump.Card.NUMBER_MAX
+                leftNumber = self._card.numberMax()
                 
-            if number < Card.NUMBER_MAX:
+            if number < self._card.numberMax():
                 rightNumber = number + 1
             else:
                 rightNumber = 1
@@ -52,7 +54,7 @@ class FantanRule(trump.Rule):
     
     def isThereCard_(self, table, suit, number):
         cards = table.getCards()
-        if cards[suit*Card.NUMBER_MAX+number] != None:
+        if cards[suit*self._card.numberMax()+number] != None:
             return True
         return False
     

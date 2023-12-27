@@ -18,10 +18,13 @@
 from .card import Card
 
 class Table:
-    _table = [None] * ((Card.NUMBER_MAX+1) * (Card.SUIT_MAX+1))
-    _tableCardString = ""
+    #_table = [None] * ((Card.NUMBER_MAX+1) * (Card.SUIT_MAX+1))
+    #_tableCardString = ""
     
     def __init__(self):
+        self._card = Card(0, 0)
+        self._table = [None] * (self._card.numberMax()+1) * (self._card.suitMax()+1)
+        self._tableCardString = ""
         self._createString()
     
     def __str__(self):
@@ -30,7 +33,7 @@ class Table:
     def putCard(self, card):
         suit = card.getSuit()
         number = card.getNumber()
-        self._table[suit*Card.NUMBER_MAX+number] = card
+        self._table[suit*self._card.numberMax()+number] = card
         self._createString()
     
     def getCards(self):
@@ -44,19 +47,19 @@ class Table:
         self._tableCardString = ""
         numberIndex = 1
         suitIndex = 1
-        numberOfCards = (Card.SUIT_MAX+1) * (Card.NUMBER_MAX+1) 
+        numberOfCards = (self._card.suitMax()+1) * (self._card.numberMax()+1) 
         for index in range(numberOfCards):
             currentCard = self._table[index]
             if currentCard == None:
                 self._tableCardString += ".. "
-                if (index % Card.NUMBER_MAX) == 0:
+                if (index % self._card.numberMax()) == 0:
                     self._tableCardString += "\n"
                 continue
             else:
                 self._tableCardString += str(currentCard)
                 self._tableCardString += " "
             
-            if currentCard.getNumber() == Card.NUMBER_MAX:
+            if currentCard.getNumber() == self._card.numberMax():
                 self._tableCardString += "\n"
         return
 
